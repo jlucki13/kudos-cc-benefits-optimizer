@@ -2,13 +2,13 @@
 // This stub only guarantees the singleton local User row exists.
 import 'dotenv/config';
 
-import { PrismaBetterSQLite3 } from '@prisma/adapter-better-sqlite3';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 
 import { cards, issuers, pointsCurrencies } from '../src/catalog';
 import { PrismaClient } from '../src/generated/prisma/client';
 
 async function main() {
-  const adapter = new PrismaBetterSQLite3({ url: process.env.DATABASE_URL ?? 'file:./dev.db' });
+  const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL ?? 'file:./dev.db' });
   const prisma = new PrismaClient({ adapter });
   try {
     await prisma.user.upsert({ where: { id: 'local' }, update: {}, create: { id: 'local' } });
