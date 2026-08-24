@@ -15,6 +15,8 @@ interface SeedBenefitBase {
   brandKey?: string;
   cadence: 'MONTHLY'|'QUARTERLY'|'SEMIANNUAL'|'ANNUAL'|'EVERY_N_YEARS'|'ONE_TIME'|'NONE';
   resetBasis: 'CALENDAR'|'ANNIVERSARY'|'STATEMENT_ANNIVERSARY'|'FIXED_WINDOW';
+  /** Recurrence for cadence 'EVERY_N_YEARS' (e.g. Global Entry credit = 4). */
+  everyNYears?: number;
   isHighlighted?: boolean;
   windowStart?: CivilDate;
   windowEnd?: CivilDate;
@@ -25,7 +27,7 @@ export type SeedBenefit =
   | (SeedBenefitBase & { type: 'STATEMENT_CREDIT'; valueCents: number })
   | (SeedBenefitBase & { type: 'POINTS_GRANT'; valuePoints: number })
   | (SeedBenefitBase & { type: 'SPEND_THRESHOLD'; thresholdCents: number })
-  | (SeedBenefitBase & { type: 'PERK'; everyNYears?: number });
+  | (SeedBenefitBase & { type: 'PERK' });
 
 export interface SeedRewardRate {
   multiplierX100: number;
