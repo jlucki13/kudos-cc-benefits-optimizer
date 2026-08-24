@@ -1,0 +1,220 @@
+import type { SeedCard } from '../types';
+
+const card: SeedCard = {
+  slug: 'amex-platinum',
+  issuer: 'amex',
+  name: 'The Platinum Card® from American Express',
+  shortName: 'Amex Platinum',
+  network: 'AMEX',
+  annualFeeCents: 89500,
+  aprLowBps: 1949,
+  aprHighBps: 2849,
+  foreignTxFeeBps: null,
+  pointsCurrency: 'amex-membership-rewards',
+  art: {
+    gradient: ['#E3E6EA', '#C2C8D0', '#8F98A3'],
+    pattern: 'sheen',
+    textColor: '#1B2430',
+    chipColor: '#8A6E3B',
+  },
+  dataAsOf: '2026-08-24',
+  sourceUrl: 'https://www.americanexpress.com/us/credit-cards/card/platinum/',
+  rewards: [
+    {
+      multiplierX100: 500,
+      category: 'Flights Booked Direct or with Amex Travel',
+      description:
+        'Earn 5x Membership Rewards® points on flights booked directly with airlines or with American Express Travel, on up to $500,000 of these purchases per calendar year.',
+    },
+    {
+      multiplierX100: 500,
+      category: 'Prepaid Hotels with Amex Travel',
+      description:
+        'Earn 5x Membership Rewards® points on prepaid hotels booked through American Express Travel, including Fine Hotels + Resorts® and The Hotel Collection.',
+    },
+    {
+      multiplierX100: 100,
+      category: 'All Other Purchases',
+      description: 'Earn 1x Membership Rewards® points on all other eligible purchases.',
+    },
+  ],
+  benefits: [
+    {
+      slug: 'amex-plat-hotel-credit',
+      title: '$600 Annual Hotel Credit',
+      shortTitle: 'Hotel Credit',
+      description:
+        'Up to $300 in statement credits semiannually (January–June and July–December), for up to $600 per calendar year, on prepaid Fine Hotels + Resorts® or The Hotel Collection bookings through American Express Travel. The booking, not the stay, must be completed within the period.',
+      brandKey: 'amex-travel',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 30000,
+      cadence: 'SEMIANNUAL',
+      resetBasis: 'CALENDAR',
+      isHighlighted: true,
+    },
+    {
+      slug: 'amex-plat-resy-credit',
+      title: '$400 Annual Resy Credit',
+      shortTitle: 'Resy Credit',
+      description:
+        'Up to $100 in statement credits each calendar quarter, for up to $400 per year, on eligible purchases at qualifying U.S. Resy restaurants. Enrollment required.',
+      brandKey: 'resy',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 10000,
+      cadence: 'QUARTERLY',
+      resetBasis: 'CALENDAR',
+      isHighlighted: true,
+    },
+    {
+      slug: 'amex-plat-digital-entertainment-credit',
+      title: '$300 Digital Entertainment Credit',
+      shortTitle: 'Digital Entertainment',
+      description:
+        'Up to $25 in statement credits each month, for up to $300 per calendar year, on eligible digital subscriptions including Disney+, ESPN, Hulu, Peacock, The New York Times and The Wall Street Journal. Enrollment required. From August 1, 2026, Peacock bundles, add-ons and third-party-purchased subscriptions no longer qualify.',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 2500,
+      cadence: 'MONTHLY',
+      resetBasis: 'CALENDAR',
+      isHighlighted: true,
+    },
+    {
+      slug: 'amex-plat-uber-cash',
+      title: '$200 Annual Uber Cash',
+      shortTitle: 'Uber Cash',
+      description:
+        'Receive $15 in Uber Cash each month, plus a bonus $20 in December, for up to $200 per calendar year on U.S. Uber rides and Uber Eats orders. Requires adding the Platinum Card to your Uber account.',
+      brandKey: 'uber',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 1500,
+      cadence: 'MONTHLY',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-uber-one-credit',
+      title: '$120 Uber One Membership Credit',
+      shortTitle: 'Uber One Credit',
+      description:
+        'Up to $120 in statement credits per calendar year when you use the card to pay for an auto-renewing Uber One membership. Enrollment required.',
+      brandKey: 'uber',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 12000,
+      cadence: 'ANNUAL',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-lululemon-credit',
+      title: '$300 Annual lululemon Credit',
+      shortTitle: 'lululemon Credit',
+      description:
+        'Up to $75 in statement credits each calendar quarter, for up to $300 per year, on eligible purchases at U.S. lululemon retail stores (excluding outlets) and lululemon.com. Enrollment required.',
+      brandKey: 'lululemon',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 7500,
+      cadence: 'QUARTERLY',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-airline-fee-credit',
+      title: '$200 Airline Fee Credit',
+      shortTitle: 'Airline Fee Credit',
+      description:
+        'Up to $200 in statement credits per calendar year for incidental fees — checked bags, seat selection, in-flight purchases, lounge day passes — charged by one qualifying airline you select each year. Enrollment required.',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 20000,
+      cadence: 'ANNUAL',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-clear-plus-credit',
+      title: '$219 CLEAR Plus Credit',
+      shortTitle: 'CLEAR Plus Credit',
+      description:
+        'Up to $219 in statement credits per calendar year on a CLEAR Plus membership, which covers the full membership price after CLEAR raised it from $209 to $219 on July 1, 2026.',
+      brandKey: 'clear',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 21900,
+      cadence: 'ANNUAL',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-equinox-credit',
+      title: '$300 Equinox Credit',
+      shortTitle: 'Equinox Credit',
+      description:
+        'Up to $300 in statement credits per calendar year on an eligible Equinox membership. Enrollment required.',
+      brandKey: 'equinox',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 30000,
+      cadence: 'ANNUAL',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-oura-credit',
+      title: '$200 Oura Ring Credit',
+      shortTitle: 'Oura Credit',
+      description:
+        'Up to $200 in statement credits per calendar year toward an Oura Ring purchased at ouraring.com. Enrollment required.',
+      brandKey: 'oura',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 20000,
+      cadence: 'ANNUAL',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-walmart-plus-credit',
+      title: 'Walmart+ Membership Credit',
+      shortTitle: 'Walmart+ Credit',
+      description:
+        'Up to $12.95 plus applicable sales tax in statement credits each month — about $155 per year — covering a Walmart+ monthly membership. Does not apply to the annual membership plan.',
+      brandKey: 'walmart',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 1295,
+      cadence: 'MONTHLY',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-global-entry-credit',
+      title: 'Global Entry or TSA PreCheck® Credit',
+      shortTitle: 'Global Entry Credit',
+      description:
+        'A statement credit every four years of up to $120 for a Global Entry application fee, or up to $85 for TSA PreCheck® when applying through an official enrollment provider.',
+      type: 'STATEMENT_CREDIT',
+      valueCents: 12000,
+      cadence: 'EVERY_N_YEARS',
+      resetBasis: 'CALENDAR',
+      everyNYears: 4,
+    },
+    {
+      slug: 'amex-plat-global-lounge-collection',
+      title: 'American Express Global Lounge Collection',
+      shortTitle: 'Lounge Access',
+      description:
+        'Access to more than 1,550 airport lounges worldwide, including Centurion® Lounges and Priority Pass™ Select after enrollment. From July 8, 2026, Centurion Lounge entry is limited to within five hours of a departing or connecting flight and guests must be on the same flight.',
+      type: 'PERK',
+      cadence: 'NONE',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-delta-sky-club-visits',
+      title: 'Delta Sky Club® Visits',
+      shortTitle: 'Delta Sky Club',
+      description: 'Up to 10 Delta Sky Club® visits per year when flying on an eligible Delta flight.',
+      brandKey: 'delta',
+      type: 'PERK',
+      cadence: 'ANNUAL',
+      resetBasis: 'CALENDAR',
+    },
+    {
+      slug: 'amex-plat-hotel-elite-status',
+      title: 'Hilton Honors Gold and Marriott Bonvoy Gold Status',
+      shortTitle: 'Hotel Gold Status',
+      description:
+        'Complimentary Hilton Honors Gold and Marriott Bonvoy Gold Elite status after enrollment.',
+      type: 'PERK',
+      cadence: 'NONE',
+      resetBasis: 'CALENDAR',
+    },
+  ],
+};
+
+export default card;
