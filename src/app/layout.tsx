@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 
+import PhoneFrame from '@/components/shell/PhoneFrame';
+
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -11,12 +13,15 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  themeColor: '#f2f2f7',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className="bg-white text-neutral-900 antialiased">{children}</body>
+      <body className="bg-app-bg font-sans text-ink antialiased">
+        <PhoneFrame>{children}</PhoneFrame>
+      </body>
     </html>
   );
 }

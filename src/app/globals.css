@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* iOS-flavored app palette */
+  --color-app-bg: #f2f2f7;
+  --color-surface: #ffffff;
+  --color-ink: #17171c;
+  --color-ink-secondary: #66666e;
+  --color-ink-tertiary: #9a9aa2;
+
+  --color-accent: #6c5ce7;
+  --color-accent-deep: #4f42c9;
+  --color-accent-soft: #efecfd;
+
+  --color-positive: #1c9e5f;
+  --color-positive-soft: #e5f6ec;
+  --color-warn: #b45309;
+  --color-warn-soft: #fdf1e0;
+  --color-danger: #e0383e;
+  --color-danger-soft: #fdebec;
+}
+
+/* Hide scrollbars inside the phone frame so it reads as a native app. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 body {
   min-height: 100dvh;
 }
