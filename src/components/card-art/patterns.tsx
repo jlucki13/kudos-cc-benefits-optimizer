@@ -79,7 +79,7 @@ function Dots({ color }: { color: string }) {
     <>
       <defs>
         <pattern id={id} width="16" height="16" patternUnits="userSpaceOnUse">
-          <circle cx="3" cy="3" r="1.1" fill={color} fillOpacity="0.11" />
+          <circle cx="3" cy="3" r="1.3" fill={color} fillOpacity="0.14" />
         </pattern>
       </defs>
       <rect width="397" height="250" fill={`url(#${id})`} />

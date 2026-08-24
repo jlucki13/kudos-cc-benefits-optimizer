@@ -45,7 +45,7 @@ export default function CardDevPage() {
 
   return (
     <div className="flex min-h-dvh justify-center bg-[#E9E9EE]">
-      <main className="w-full max-w-[390px] bg-white pb-12 pt-5 shadow-[0_0_40px_rgba(0,0,0,0.08)]">
+      <div className="w-full max-w-[390px] bg-white pb-12 pt-5 shadow-[0_0_40px_rgba(0,0,0,0.08)]">
         <CardCarousel cards={carouselCards} selectedId={selectedId} onSelect={setSelectedId} />
         <h1 className="mt-5 px-5 text-center text-[21px] font-bold text-neutral-900">{card.name}</h1>
         <div className="mt-4">
@@ -99,7 +99,7 @@ export default function CardDevPage() {
             </div>
           </>
         )}
-      </main>
+      </div>
     </div>
   );
 }
