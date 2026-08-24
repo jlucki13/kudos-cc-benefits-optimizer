@@ -8,11 +8,11 @@ import TopBar from '@/components/shell/TopBar';
 import BenefitRow from '@/components/tracker/BenefitRow';
 import { demoTrackerVM } from '@/components/tracker/demo-data';
 import { sortTrackerItems } from '@/components/tracker/TrackerSection';
-import { emptyTrackerFixture } from '@/lib/fixtures';
+import { asOfDate } from '@/lib/as-of';
+import { getTracker } from '@/lib/queries';
 
-function getHomeData(): TrackerVM {
-  // TODO(W5): replace with real query
-  return emptyTrackerFixture;
+function getHomeData(): Promise<TrackerVM> {
+  return getTracker(asOfDate());
 }
 
 export default async function HomePage({
@@ -21,7 +21,7 @@ export default async function HomePage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const sp = await searchParams;
-  const vm = sp.demo !== undefined ? demoTrackerVM : getHomeData();
+  const vm = sp.demo !== undefined ? demoTrackerVM : await getHomeData();
   const isEmpty = vm.groups.every((group) => group.items.length === 0);
   const expiring = sortTrackerItems(vm.groups.find((g) => g.key === 'expiring')?.items ?? []).slice(0, 4);
 

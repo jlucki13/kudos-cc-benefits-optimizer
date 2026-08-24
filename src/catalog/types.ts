@@ -18,7 +18,12 @@ interface SeedBenefitBase {
   /** Recurrence for cadence 'EVERY_N_YEARS' (e.g. Global Entry credit = 4). */
   everyNYears?: number;
   isHighlighted?: boolean;
+  /** Inclusive first day of a FIXED_WINDOW benefit. */
   windowStart?: CivilDate;
+  /**
+   * EXCLUSIVE last day of a FIXED_WINDOW benefit — the first day no longer
+   * covered. A credit usable "through December 31, 2026" ends '2027-01-01'.
+   */
   windowEnd?: CivilDate;
   registerByDate?: CivilDate;
 }

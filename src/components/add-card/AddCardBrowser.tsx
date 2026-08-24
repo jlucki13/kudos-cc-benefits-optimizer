@@ -1,9 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMemo, useState, useTransition } from 'react';
 
 import type { CatalogEntryVM } from '@/lib/view-models';
 
+import { addCard } from '@/app/actions/cards';
 import MiniCardFace from '@/components/add-card/MiniCardFace';
 
 function groupByIssuer(entries: CatalogEntryVM[]): [string, CatalogEntryVM[]][] {
@@ -20,7 +22,22 @@ function groupByIssuer(entries: CatalogEntryVM[]): [string, CatalogEntryVM[]][] 
 
 /** Searchable catalog list, grouped by issuer. */
 export default function AddCardBrowser({ entries }: { entries: CatalogEntryVM[] }) {
+  const router = useRouter();
   const [query, setQuery] = useState('');
+  const [addingSlug, setAddingSlug] = useState<string | null>(null);
+  const [, startTransition] = useTransition();
+
+  const handleAdd = (slug: string) => {
+    setAddingSlug(slug);
+    startTransition(async () => {
+      try {
+        const { userCardId } = await addCard(slug);
+        router.push(`/cards?card=${encodeURIComponent(userCardId)}`);
+      } finally {
+        setAddingSlug(null);
+      }
+    });
+  };
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -86,10 +103,11 @@ export default function AddCardBrowser({ entries }: { entries: CatalogEntryVM[] 
                     ) : (
                       <button
                         type="button"
-                        // TODO(W5): wire the add-to-wallet server action.
-                        className="shrink-0 rounded-full bg-accent px-4 py-1.5 text-[13px] font-semibold text-white active:opacity-80"
+                        onClick={() => handleAdd(entry.slug)}
+                        disabled={addingSlug !== null}
+                        className="shrink-0 rounded-full bg-accent px-4 py-1.5 text-[13px] font-semibold text-white active:opacity-80 disabled:opacity-50"
                       >
-                        Add
+                        {addingSlug === entry.slug ? 'Adding…' : 'Add'}
                       </button>
                     )}
                   </div>

@@ -3,11 +3,10 @@ import Link from 'next/link';
 import type { CatalogEntryVM } from '@/lib/view-models';
 
 import AddCardBrowser from '@/components/add-card/AddCardBrowser';
-import { catalogFixture } from '@/lib/fixtures';
+import { getCatalogEntries } from '@/lib/queries';
 
-function getCatalog(): CatalogEntryVM[] {
-  // TODO(W5): replace with real query (catalog + per-user alreadyInWallet flags)
-  return catalogFixture;
+function getCatalog(): Promise<CatalogEntryVM[]> {
+  return getCatalogEntries();
 }
 
 export default async function AddCardPage({
@@ -16,7 +15,7 @@ export default async function AddCardPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const sp = await searchParams;
-  let entries = getCatalog();
+  let entries = await getCatalog();
   if (sp.demo !== undefined) {
     // Dev preview of the "already in wallet" state.
     entries = entries.map((entry) =>

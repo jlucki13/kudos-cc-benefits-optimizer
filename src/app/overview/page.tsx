@@ -6,10 +6,11 @@ import TopTabs from '@/components/shell/TopTabs';
 import FeeVsValueCard from '@/components/overview/FeeVsValueCard';
 import WalletTotals from '@/components/overview/WalletTotals';
 import { demoWalletVM } from '@/components/tracker/demo-data';
+import { asOfDate } from '@/lib/as-of';
+import { getWalletCards } from '@/lib/queries';
 
-function getOverviewData(): CardVM[] {
-  // TODO(W5): replace with real query
-  return [];
+function getOverviewData(): Promise<CardVM[]> {
+  return getWalletCards(asOfDate());
 }
 
 export default async function OverviewPage({
@@ -18,7 +19,7 @@ export default async function OverviewPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const sp = await searchParams;
-  const cards = sp.demo !== undefined ? demoWalletVM : getOverviewData();
+  const cards = sp.demo !== undefined ? demoWalletVM : await getOverviewData();
 
   return (
     <>

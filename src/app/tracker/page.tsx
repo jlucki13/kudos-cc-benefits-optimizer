@@ -6,7 +6,8 @@ import TopTabs from '@/components/shell/TopTabs';
 import { demoTrackerVM } from '@/components/tracker/demo-data';
 import TrackerSection from '@/components/tracker/TrackerSection';
 import TrackerSummary from '@/components/tracker/TrackerSummary';
-import { emptyTrackerFixture } from '@/lib/fixtures';
+import { asOfDate } from '@/lib/as-of';
+import { getTracker } from '@/lib/queries';
 
 const GROUP_ORDER: TrackerGroup[] = ['expiring', 'available', 'used', 'missed', 'untracked'];
 
@@ -18,9 +19,8 @@ const GROUP_LABELS: Record<TrackerGroup, string> = {
   untracked: 'Not tracked',
 };
 
-function getTrackerData(): TrackerVM {
-  // TODO(W5): replace with real query
-  return emptyTrackerFixture;
+function getTrackerData(): Promise<TrackerVM> {
+  return getTracker(asOfDate());
 }
 
 export default async function TrackerPage({
@@ -29,7 +29,7 @@ export default async function TrackerPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const sp = await searchParams;
-  const vm = sp.demo !== undefined ? demoTrackerVM : getTrackerData();
+  const vm = sp.demo !== undefined ? demoTrackerVM : await getTrackerData();
   const isEmpty = vm.groups.every((group) => group.items.length === 0);
 
   return (

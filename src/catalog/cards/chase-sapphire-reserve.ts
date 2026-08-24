@@ -105,7 +105,7 @@ const card: SeedCard = {
       cadence: 'ONE_TIME',
       resetBasis: 'FIXED_WINDOW',
       windowStart: '2026-01-01',
-      windowEnd: '2026-12-31',
+      windowEnd: '2027-01-01', // exclusive: covers through Dec 31, 2026
     },
     {
       slug: 'csr-lyft-credit',
@@ -151,7 +151,7 @@ const card: SeedCard = {
       type: 'PERK',
       cadence: 'ONE_TIME',
       resetBasis: 'FIXED_WINDOW',
-      windowEnd: '2027-06-22',
+      windowEnd: '2027-06-23', // exclusive: covers through Jun 22, 2027
     },
     {
       slug: 'csr-global-entry-credit',
