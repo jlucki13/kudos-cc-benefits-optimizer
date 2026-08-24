@@ -1,0 +1,234 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum CardNetwork {
+  VISA
+  MASTERCARD
+  AMEX
+  DISCOVER
+}
+
+enum BenefitType {
+  STATEMENT_CREDIT
+  POINTS_GRANT
+  SPEND_THRESHOLD
+  PERK
+}
+
+enum Cadence {
+  MONTHLY
+  QUARTERLY
+  SEMIANNUAL
+  ANNUAL
+  EVERY_N_YEARS
+  ONE_TIME
+  NONE
+}
+
+enum ResetBasis {
+  CALENDAR
+  ANNIVERSARY
+  STATEMENT_ANNIVERSARY
+  FIXED_WINDOW
+}
+
+enum RedemptionMethod {
+  DEFAULT
+  CASH_BACK
+  TRAVEL_PORTAL
+  TRANSFER_PARTNERS
+}
+
+enum EntryKind {
+  REDEEM
+  SPEND
+  GRANT
+}
+
+enum EntrySource {
+  MANUAL
+  PLAID
+  IMPORT
+}
+
+model Issuer {
+  slug        String        @id
+  name        String
+  displayName String
+  brandColor  String
+  products    CardProduct[]
+}
+
+model PointsCurrency {
+  slug       String                 @id
+  name       String
+  shortName  String
+  valuations PointsValuation[]
+  products   CardProduct[]
+  prefs      UserPointsPreference[]
+}
+
+model PointsValuation {
+  id                 String           @id
+  currencySlug       String
+  currency           PointsCurrency   @relation(fields: [currencySlug], references: [slug], onDelete: Cascade)
+  method             RedemptionMethod
+  milliCentsPerPoint Int
+  label              String
+  notes              String?
+
+  @@unique([currencySlug, method])
+}
+
+model CardProduct {
+  slug               String          @id
+  issuerSlug         String
+  issuer             Issuer          @relation(fields: [issuerSlug], references: [slug])
+  name               String
+  shortName          String
+  network            CardNetwork
+  annualFeeCents     Int
+  aprLowBps          Int
+  aprHighBps         Int
+  foreignTxFeeBps    Int?
+  pointsCurrencySlug String?
+  pointsCurrency     PointsCurrency? @relation(fields: [pointsCurrencySlug], references: [slug])
+  art                Json
+  dataAsOf           String
+  sourceUrl          String
+  retiredAt          String?
+  rewards            RewardRate[]
+  benefits           Benefit[]
+  userCards          UserCard[]
+}
+
+model RewardRate {
+  id              String      @id
+  cardProductSlug String
+  cardProduct     CardProduct @relation(fields: [cardProductSlug], references: [slug], onDelete: Cascade)
+  multiplierX100  Int
+  category        String
+  description     String
+  endsOn          String?
+  sortOrder       Int
+
+  @@index([cardProductSlug, sortOrder])
+}
+
+model Benefit {
+  slug             String            @id
+  cardProductSlug  String
+  cardProduct      CardProduct       @relation(fields: [cardProductSlug], references: [slug], onDelete: Cascade)
+  type             BenefitType
+  title            String
+  shortTitle       String
+  description      String
+  brandKey         String?
+  valueCents       Int?
+  valuePoints      Int?
+  thresholdCents   Int?
+  cadence          Cadence
+  periodsPerYear   Int
+  defaultResetBasis ResetBasis
+  everyNYears      Int?
+  windowStart      String?
+  windowEnd        String?
+  registerByDate   String?
+  isHighlighted    Boolean           @default(false)
+  sortOrder        Int
+  retiredAt        String?
+  userCardBenefits UserCardBenefit[]
+
+  @@index([cardProductSlug, sortOrder])
+}
+
+model User {
+  id          String                 @id @default("local")
+  createdAt   DateTime               @default(now())
+  cards       UserCard[]
+  pointsPrefs UserPointsPreference[]
+}
+
+model UserPointsPreference {
+  id           String           @id @default(cuid())
+  userId       String
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  currencySlug String
+  currency     PointsCurrency   @relation(fields: [currencySlug], references: [slug], onDelete: Cascade)
+  method       RedemptionMethod @default(DEFAULT)
+
+  @@unique([userId, currencySlug])
+}
+
+model UserCard {
+  id                  String            @id @default(cuid())
+  userId              String
+  user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cardProductSlug     String
+  cardProduct         CardProduct       @relation(fields: [cardProductSlug], references: [slug])
+  nickname            String?
+  last4               String?
+  openedAt            String?
+  statementDayOfMonth Int?
+  sortOrder           Int               @default(0)
+  removedAt           String?
+  plaidItemId         String?
+  plaidAccountId      String?
+  benefits            UserCardBenefit[]
+
+  @@index([userId, sortOrder])
+}
+
+model UserCardBenefit {
+  id                 String          @id @default(cuid())
+  userCardId         String
+  userCard           UserCard        @relation(fields: [userCardId], references: [id], onDelete: Cascade)
+  benefitSlug        String
+  benefit            Benefit         @relation(fields: [benefitSlug], references: [slug])
+  resetBasisOverride ResetBasis?
+  anchorOverride     String?
+  customValueCents   Int?
+  isTracked          Boolean         @default(true)
+  periods            BenefitPeriod[]
+
+  @@unique([userCardId, benefitSlug])
+}
+
+model BenefitPeriod {
+  id                     String          @id @default(cuid())
+  userCardBenefitId      String
+  userCardBenefit        UserCardBenefit @relation(fields: [userCardBenefitId], references: [id], onDelete: Cascade)
+  periodStart            String
+  periodEnd              String
+  label                  String
+  valueCentsSnapshot     Int?
+  valuePointsSnapshot    Int?
+  thresholdCentsSnapshot Int?
+  entries                BenefitEntry[]
+
+  @@unique([userCardBenefitId, periodStart])
+  @@index([periodEnd])
+  @@index([userCardBenefitId, periodStart])
+}
+
+model BenefitEntry {
+  id              String        @id @default(cuid())
+  benefitPeriodId String
+  benefitPeriod   BenefitPeriod @relation(fields: [benefitPeriodId], references: [id], onDelete: Cascade)
+  kind            EntryKind
+  amountCents     Int?
+  amountPoints    Int?
+  occurredAt      String
+  note            String?
+  source          EntrySource   @default(MANUAL)
+  externalTxnId   String?       @unique
+  createdAt       DateTime      @default(now())
+
+  @@index([benefitPeriodId])
+}
