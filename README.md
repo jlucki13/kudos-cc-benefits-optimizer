@@ -12,9 +12,15 @@ This is **v1: manual tracking.** You tap to confirm a credit was used. Bank sync
 
 ## Quick start
 
-Requires Node 20.9 or newer (`better-sqlite3` compiles native bindings).
+Requires Node 20.9 or newer. `better-sqlite3` installs a prebuilt binary for common platforms;
+it only falls back to compiling when no prebuild matches your Node version.
+
+Each line is a separate command — do not join them with `\`, which is POSIX shell syntax and
+will be read as an argument on Windows.
 
 ```bash
+git clone -b claude/credit-card-benefits-tracker-sa6005 https://github.com/jlucki13/kudos-cc-benefits-optimizer.git
+cd kudos-cc-benefits-optimizer
 npm install     # postinstall generates the Prisma client
 npm run setup   # creates .env, applies migrations, seeds 15 cards
 npm run dev     # http://localhost:3000
@@ -23,11 +29,42 @@ npm run dev     # http://localhost:3000
 The wallet starts empty on purpose, so you land on the first-run flow. Add a card, open **Cards**
 for the detail screen, then **Benefits tracker** to mark credits used.
 
-To see expired buckets without waiting for the calendar, override the clock:
+### Seeing expired benefits
+
+Most of the point of the app is showing credits you have already lost, which needs a date late
+enough that some periods have closed. Override the clock rather than waiting for the calendar:
 
 ```bash
+# macOS / Linux
 KUDOS_AS_OF=2026-12-20 npm run dev
 ```
+
+```powershell
+# Windows PowerShell — inline VAR=value does not work here
+$env:KUDOS_AS_OF='2026-12-20'; npm run dev
+```
+
+```bat
+:: Windows cmd.exe
+set KUDOS_AS_OF=2026-12-20 && npm run dev
+```
+
+The same applies to `DATABASE_URL` and any other variable these docs set inline.
+
+### On Windows
+
+Everything works, with two things to know:
+
+- **Environment variables use a different syntax**, as above. This is the most common way to get
+  stuck, because the POSIX form fails with a confusing "not recognized as the name of a cmdlet"
+  error rather than saying the variable was the problem.
+- **If `npm install` tries to compile `better-sqlite3`** and fails on `node-gyp` or asks for
+  Visual Studio Build Tools, no prebuilt binary matched your Node version. Installing build tools
+  will fix it, but switching to a Node LTS release (20 or 22) is usually faster and is the
+  supported path.
+
+The npm scripts themselves are cross-platform — npm runs them through `cmd.exe` on Windows, and
+the setup and test-database helpers are plain Node.
 
 ## Scripts
 
