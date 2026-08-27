@@ -58,7 +58,7 @@ export interface RollupVM {
   claimableNowCents: number;
   forfeitedCents: number;
   unopenedCents: number;
-  annualFaceValueCents: number;
+  faceValueCents: number;
 }
 
 export interface CardRoiVM extends RollupVM {

@@ -21,7 +21,7 @@ function facts(cadence: 'MONTHLY' | 'ANNUAL', valueCents: number, asOf: string):
 }
 
 function expectInvariant(r: Rollup): void {
-  expect(r.addressableToDateCents + r.unopenedCents).toBe(r.annualFaceValueCents);
+  expect(r.addressableToDateCents + r.unopenedCents).toBe(r.faceValueCents);
 }
 
 // ---------------------------------------------------------------------------
@@ -49,7 +49,7 @@ describe('rollup: $15/month calendar credit vs $200 annual credit', () => {
 
   it('monthly on 2026-08-01: Jan–Aug opened (12000), Aug claimable, Jan–Jul forfeited', () => {
     const r = rollup(monthly, '2026-08-01');
-    expect(r.annualFaceValueCents).toBe(18000); // the marketing number
+    expect(r.faceValueCents).toBe(18000); // the marketing number
     expect(r.addressableToDateCents).toBe(12000); // 8 slices opened — NOT 18000
     expect(r.unopenedCents).toBe(6000); // Sep–Dec
     expect(r.claimableNowCents).toBe(1500); // August, open today, untouched
@@ -78,7 +78,7 @@ describe('rollup: $15/month calendar credit vs $200 annual credit', () => {
 
   it('the two cadences are deliberately NOT treated alike when combined', () => {
     const combined = rollupMany([rollup(monthly, '2026-08-01'), rollup(annual, '2026-08-01')]);
-    expect(combined.annualFaceValueCents).toBe(38000); // what marketing sums
+    expect(combined.faceValueCents).toBe(38000); // what marketing sums
     expect(combined.addressableToDateCents).toBe(32000); // what has actually opened
     expect(combined.claimableNowCents).toBe(21500); // $15 urgent slice + $200 at risk all year
     expect(combined.forfeitedCents).toBe(10500);
@@ -157,7 +157,7 @@ describe('rollupMany', () => {
       claimableNowCents: 50,
       forfeitedCents: 25,
       unopenedCents: 300,
-      annualFaceValueCents: 500,
+      faceValueCents: 500,
     };
     const b: Rollup = {
       capturedCents: 1,
@@ -165,7 +165,7 @@ describe('rollupMany', () => {
       claimableNowCents: 3,
       forfeitedCents: 4,
       unopenedCents: 5,
-      annualFaceValueCents: 7,
+      faceValueCents: 7,
     };
     expect(rollupMany([a, b])).toEqual({
       capturedCents: 101,
@@ -173,7 +173,7 @@ describe('rollupMany', () => {
       claimableNowCents: 53,
       forfeitedCents: 29,
       unopenedCents: 305,
-      annualFaceValueCents: 507,
+      faceValueCents: 507,
     });
   });
 

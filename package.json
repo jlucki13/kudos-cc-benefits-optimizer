@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
-    "test:e2e": "PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers playwright test",
+    "test:e2e": "node scripts/e2e-db.mjs && playwright test",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
-    "db:reset": "prisma migrate reset --force"
+    "db:reset": "prisma migrate reset --force",
+    "postinstall": "prisma generate",
+    "setup": "node scripts/setup.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "7.9.1",
@@ -33,5 +35,8 @@
     "tsx": "^4.19.0",
     "typescript": "^5.9.0",
     "vitest": "4.1.11"
+  },
+  "engines": {
+    "node": ">=20.9"
   }
 }

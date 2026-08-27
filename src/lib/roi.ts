@@ -30,7 +30,13 @@ export interface Rollup {
   claimableNowCents: number; // open periods, unused remainder — act now
   forfeitedCents: number; // CLOSED periods, unused remainder — permanently lost
   unopenedCents: number; // periods not yet opened this benefit year
-  annualFaceValueCents: number; // full-year face value (the marketing number)
+  /**
+   * Face value of every period considered — the headline "up to $X in credits"
+   * number. Not an annual rate: a benefit on a multi-year cycle (a Global Entry
+   * credit offered every four years) contributes its whole value to the cycle
+   * it belongs to, because that is genuinely what is claimable in it.
+   */
+  faceValueCents: number;
 }
 
 export function emptyRollup(): Rollup {
@@ -40,15 +46,15 @@ export function emptyRollup(): Rollup {
     claimableNowCents: 0,
     forfeitedCents: 0,
     unopenedCents: 0,
-    annualFaceValueCents: 0,
+    faceValueCents: 0,
   };
 }
 
-/** Classify every period against asOf and accumulate. Invariant: addressable + unopened === annualFaceValue. */
+/** Classify every period against asOf and accumulate. Invariant: addressable + unopened === faceValue. */
 export function rollup(periods: PeriodFact[], asOf: CivilDate): Rollup {
   const r = emptyRollup();
   for (const p of periods) {
-    r.annualFaceValueCents += p.valueCents;
+    r.faceValueCents += p.valueCents;
     r.capturedCents += p.usedCents;
     const opened = compareCivil(p.start, asOf) <= 0; // start <= asOf
     const closed = compareCivil(p.end, asOf) <= 0; // end <= asOf
@@ -70,7 +76,7 @@ export function rollupMany(rollups: Rollup[]): Rollup {
     r.claimableNowCents += x.claimableNowCents;
     r.forfeitedCents += x.forfeitedCents;
     r.unopenedCents += x.unopenedCents;
-    r.annualFaceValueCents += x.annualFaceValueCents;
+    r.faceValueCents += x.faceValueCents;
   }
   return r;
 }

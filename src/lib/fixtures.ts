@@ -186,7 +186,7 @@ export const csrFixture: CardVM = {
     claimableNowCents: 70000,
     forfeitedCents: 15000,
     unopenedCents: 0,
-    annualFaceValueCents: 110000,
+    faceValueCents: 110000,
     netCents: -54500,
     projectedNetCents: 15500,
     isWorthItToday: false,
@@ -201,7 +201,7 @@ export const emptyTrackerFixture: TrackerVM = {
     claimableNowCents: 0,
     forfeitedCents: 0,
     unopenedCents: 0,
-    annualFaceValueCents: 0,
+    faceValueCents: 0,
   },
 };
 

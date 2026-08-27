@@ -18,6 +18,7 @@ import { AnnualFeePanel } from '@/components/card-detail/AnnualFeePanel';
 import { CardCarousel, type CarouselCard } from '@/components/card-detail/CardCarousel';
 import { CardIdentityRows } from '@/components/card-detail/CardIdentityRows';
 import { DataAsOfNote } from '@/components/card-detail/DataAsOfNote';
+import { BenefitsBalance } from '@/components/card-detail/BenefitsBalance';
 import { DetailBalanceTabs, type DetailBalanceTab } from '@/components/card-detail/DetailBalanceTabs';
 import { OtherBenefits } from '@/components/card-detail/OtherBenefits';
 import { PointsConversion, type RedemptionMethod } from '@/components/card-detail/PointsConversion';
@@ -99,9 +100,7 @@ export default function CardsScreen({ cards, wiring, initialSelectedId }: CardsS
         <DetailBalanceTabs value={tab} onChange={setTab} />
       </div>
       {tab === 'balance' ? (
-        <p className="mt-10 px-5 text-center text-[13px] text-neutral-400">
-          Balance needs a connected account — sync is coming in a future update.
-        </p>
+        <BenefitsBalance roi={card.roi} cardShortName={card.shortName} />
       ) : (
         <>
           {card.pointsCurrencyName ? (

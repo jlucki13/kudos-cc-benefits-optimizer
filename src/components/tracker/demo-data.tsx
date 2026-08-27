@@ -127,7 +127,7 @@ export const demoTrackerVM: TrackerVM = {
     claimableNowCents: 101500,
     forfeitedCents: 15000,
     unopenedCents: 0,
-    annualFaceValueCents: 182000,
+    faceValueCents: 182000,
   },
 };
 
@@ -166,7 +166,7 @@ const ventureXCard: CardVM = {
     claimableNowCents: 30000,
     forfeitedCents: 0,
     unopenedCents: 0,
-    annualFaceValueCents: 70000,
+    faceValueCents: 70000,
     netCents: 500,
     projectedNetCents: 30500,
     isWorthItToday: true,
